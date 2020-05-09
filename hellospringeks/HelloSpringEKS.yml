@@ -1,0 +1,31 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: hello
+spec:
+  type: LoadBalancer
+  selector:
+    app: hello
+  ports:
+    - name: http
+      protocol: TCP
+      # ELB's port
+      port: 8080
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hello
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hello
+  template:
+    metadata:
+      labels:
+        app: hello
+    spec:
+      containers:
+        - name: hello
+          image: naresh240/hellospringeks
